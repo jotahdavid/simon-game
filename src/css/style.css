@@ -26,7 +26,13 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  
   position: relative;
+  pointer-events: none;
+}
+
+#game.play {
+  pointer-events: visible;
 }
 
 #game::after {
@@ -75,7 +81,7 @@ body {
   border-bottom-right-radius: 100%;
 }
 
-.pads:active {
+.pads:active, .pads.active {
   filter: brightness(2);
   box-shadow: inset 4px 4px 5px rgba(0, 0, 0, .5), inset -4px -4px 5px rgba(0, 0, 0, .5);
 }
