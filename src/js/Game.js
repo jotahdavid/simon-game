@@ -1,3 +1,5 @@
+import Sounds from './Sounds.js';
+
 export default {
   pads: document.querySelectorAll('.pads'),
   board: document.querySelector('#game'),
@@ -25,10 +27,14 @@ export default {
     this.board.classList.remove('play');
 
     for(let i = 0; i < this.sequences.length; i++){
+      const padIndex = this.sequences[i];
+
       await this.wait(1000);
-      this.pads[this.sequences[i]].classList.add('active');
-      await this.wait(1200);
-      this.pads[this.sequences[i]].classList.remove('active');
+      this.pads[padIndex].classList.add('active');
+      Sounds.play(padIndex);
+
+      await this.wait(500);
+      this.pads[padIndex].classList.remove('active');
     }
 
     this.board.classList.add('play');
@@ -38,9 +44,11 @@ export default {
     const padIndex = Number(event.currentTarget.dataset.index) - 1;
 
     if(padIndex === this.sequences[this.playCount]){
+      Sounds.play(padIndex);
       this.playCount++;
     } else {
       this.sequences = [];
+      Sounds.play('fail');
       this.playCount = 0;
       this.getRandomPad();
     }
