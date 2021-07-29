@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Squada+One&display=swap");
 
+:root {
+  --color-green: rgb(0, 98, 0);
+  --color-red: rgb(143, 0, 0);
+  --color-yellow: rgb(163, 163, 0);
+  --color-blue: rgb(0, 0, 133);
+}
+
 * {
   margin: 0; padding: 0; box-sizing: border-box;
 }
@@ -38,8 +45,7 @@ body {
   pointer-events: visible;
 }
 
-#game::after {
-  content: "Simon";
+#game::after, #play-button {
   color: #fff;
   text-transform: uppercase;
   font-family: "Squada One", Arial, Helvetica, sans-serif;
@@ -60,34 +66,61 @@ body {
   position: absolute;
   top: calc(50% - min(90vw / 2.5, 200px) / 2); /* centralize */
   left: calc(50% - min(90vw / 2.5, 200px) / 2); /* centralize */
+}
+
+#game::after {
+  content: "Simon";
   z-index: 10;
 }
 
-.pads {
+#play-button {
+  flex-direction: column;
+  gap: min(.5rem, 2vw);
+  z-index: 12;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+#play-button > i {
+  font-size: min(2rem, 7vw);
+}
+
+.pads, #play-button {
   border: none;
-  border-radius: 1rem;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
+.pads {
+  border-radius: 1rem;
+}
+
 .pads[data-index="1"] {
-  background-color: rgb(0, 98, 0);
+  background-color: var(--color-green);
   border-top-left-radius: 100%;
 }
 .pads[data-index="2"] {
-  background-color: rgb(143, 0, 0);
+  background-color: var(--color-red);
   border-top-right-radius: 100%;
 }
 .pads[data-index="3"] {
-  background-color: rgb(163, 163, 0);
+  background-color: var(--color-yellow);
   border-bottom-left-radius: 100%;
 }
 .pads[data-index="4"] {
-  background-color: rgb(0, 0, 133);
+  background-color: var(--color-blue);
   border-bottom-right-radius: 100%;
 }
 
 .pads:active, .pads.active {
   filter: brightness(2);
   box-shadow: inset 4px 4px 5px rgba(0, 0, 0, .5), inset -4px -4px 5px rgba(0, 0, 0, .5);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
