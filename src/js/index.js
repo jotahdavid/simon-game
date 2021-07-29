@@ -1,3 +1,4 @@
 import Game from './Game.js';
 
-Game.init();
+document.querySelector("#play-button")
+  .addEventListener("click", Game.init.bind(Game), { once: true });

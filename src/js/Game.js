@@ -1,6 +1,7 @@
 import Sounds from './Sounds.js';
 
 export default {
+  playButton: document.querySelector('#play-button'),
   pads: document.querySelectorAll('.pads'),
   board: document.querySelector('#game'),
   sequences: [],
@@ -11,6 +12,7 @@ export default {
   },
 
   init(){
+    this.playButton.classList.add('is-hidden');
     this.pads.forEach(pad => pad.addEventListener('click', this.checkSequence.bind(this)));
 
     this.getRandomPad();

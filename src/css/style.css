@@ -78,10 +78,15 @@ body {
   gap: min(.5rem, 2vw);
   z-index: 12;
   animation: pulse 1.5s infinite ease-in-out;
+  pointer-events: visible;
 }
 
 #play-button > i {
   font-size: min(2rem, 7vw);
+}
+
+.is-hidden {
+  display: none !important;
 }
 
 .pads, #play-button {
