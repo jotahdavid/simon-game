@@ -26,8 +26,6 @@ export default {
   },
 
   async playSignalsSequence(){
-    this.board.classList.remove('play');
-
     for(let i = 0; i < this.sequences.length; i++){
       const padIndex = this.sequences[i];
 
@@ -42,7 +40,7 @@ export default {
     this.board.classList.add('play');
   },
 
-  checkSequence(event){
+  async checkSequence(event){
     const padIndex = Number(event.currentTarget.dataset.index) - 1;
 
     if(padIndex === this.sequences[this.playCount]){
@@ -52,11 +50,14 @@ export default {
       this.sequences = [];
       Sounds.play('fail');
       this.playCount = 0;
+      this.board.classList.remove('play');
+      await this.wait(1000);
       this.getRandomPad();
     }
 
     if(this.playCount === this.sequences.length){
       this.playCount = 0;
+      this.board.classList.remove('play');
       this.getRandomPad();
     }
   },
