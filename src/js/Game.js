@@ -6,6 +6,11 @@ export default {
   board: document.querySelector('#game'),
   sequences: [],
   playCount: 0,
+
+  time: {
+    changeColor: 800,
+    stayLit: 500,
+  },
   
   wait(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -26,14 +31,16 @@ export default {
   },
 
   async playSignalsSequence(){
+    await this.wait(500);
+
     for(let i = 0; i < this.sequences.length; i++){
       const padIndex = this.sequences[i];
 
-      await this.wait(1000);
+      await this.wait(this.time.changeColor);
       this.pads[padIndex].classList.add('active');
       Sounds.play(padIndex);
 
-      await this.wait(500);
+      await this.wait(this.time.stayLit);
       this.pads[padIndex].classList.remove('active');
     }
 
@@ -54,6 +61,9 @@ export default {
       this.board.classList.add('fail');
       this.board.classList.remove('play');
 
+      this.time.changeColor = 800;
+      this.time.stayLit = 500;
+
       await this.wait(1000);
       this.board.classList.remove('fail');
       this.getRandomPad();
@@ -61,9 +71,23 @@ export default {
 
     if(this.playCount === this.sequences.length){
       this.playCount = 0;
+
+      if(this.sequences.length === 2 || this.sequences.length % 4 === 0) {
+        this.increaseSpeed();
+      }
       
       this.board.classList.remove('play');
       this.getRandomPad();
     }
   },
+
+  increaseSpeed(){
+    if(this.time.changeColor > 300) {
+      this.time.changeColor -= 100;
+    }
+
+    if(this.time.stayLit > 200) {
+      this.time.stayLit -= 100;
+    }
+  }
 };
