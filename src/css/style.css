@@ -101,7 +101,7 @@ body {
 }
 
 .pads {
-  border-radius: 1rem;
+  border-radius: 5%;
 }
 
 .pads[data-index="1"] {
