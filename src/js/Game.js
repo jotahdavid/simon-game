@@ -55,9 +55,8 @@ export default {
       this.playCount++;
     } else {
       Sounds.play('fail');
-      this.sequences = [];
-      this.playCount = 0;
 
+      this.pads[this.sequences[this.playCount]].classList.add('active');
       this.board.classList.add('fail');
       this.board.classList.remove('play');
 
@@ -65,7 +64,11 @@ export default {
       this.time.stayLit = 500;
 
       await this.wait(1000);
+      this.pads[this.sequences[this.playCount]].classList.remove('active');
       this.board.classList.remove('fail');
+
+      this.sequences = [];
+      this.playCount = 0;
       this.getRandomPad();
     }
 
