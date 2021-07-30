@@ -47,16 +47,21 @@ export default {
       Sounds.play(padIndex);
       this.playCount++;
     } else {
-      this.sequences = [];
       Sounds.play('fail');
+      this.sequences = [];
       this.playCount = 0;
+
+      this.board.classList.add('fail');
       this.board.classList.remove('play');
+
       await this.wait(1000);
+      this.board.classList.remove('fail');
       this.getRandomPad();
     }
 
     if(this.playCount === this.sequences.length){
       this.playCount = 0;
+      
       this.board.classList.remove('play');
       this.getRandomPad();
     }
