@@ -1,31 +1,23 @@
 export default {
-  soundName: null,
+  sounds: {},
+
+  loadSounds(){
+    this.sounds = {
+      fail: new Audio('./src/sounds/fail.mp3'),
+      green: new Audio('./src/sounds/green.mp3'),
+      red: new Audio('./src/sounds/red.mp3'),
+      yellow: new Audio('./src/sounds/yellow.mp3'),
+      blue: new Audio('./src/sounds/blue.mp3'),
+    };
+  },
 
   async play(value){
-    this.soundName = null;
+    const sound = this.sounds[value];
 
-    switch(value) {
-      case 'fail':
-        this.soundName = 'fail';
-        break;
-      case 0:
-        this.soundName = 'green';
-        break;
-      case 1:
-        this.soundName = 'red';
-        break;
-      case 2:
-        this.soundName = 'yellow';
-        break;
-      case 3:
-        this.soundName = 'blue';
-        break;
-      default:
-        return;
-    }
+    if(!sound) return;
 
-    const sound = new Audio(`./src/sounds/${this.soundName}.mp3`);
+    sound.currentTime = 0;
     sound.crossOrigin = 'anonymous';
-    sound.addEventListener('canplay', () => sound.play());
+    sound.play();
   },
-}
+};

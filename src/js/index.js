@@ -1,4 +1,9 @@
 import Game from './Game.js';
+import Sounds from './Sounds.js';
 
-document.querySelector("#play-button")
-  .addEventListener("click", Game.init.bind(Game), { once: true });
+window.addEventListener('load', () => {
+  const $playButton = document.querySelector('#play-button');
+  $playButton.addEventListener('click', Game.init.bind(Game), { once: true });
+
+  Sounds.loadSounds();
+});

@@ -2,25 +2,27 @@ import Sounds from './Sounds.js';
 import { wait } from './Utils.js';
 
 export default {
-  $playButton: document.querySelector('#play-button'),
   $pads: document.querySelectorAll('.pads'),
   $board: document.querySelector('.board'),
-  $score: document.querySelector('.score'),
-  $scoreCount: document.querySelector('.score-count'),
-  sequences: [],
+
+  padColorsByIndex: [ 'green', 'red', 'yellow', 'blue' ],
+
+  sequence: [],
   playCount: 0,
+
   _score: {
     current: 0,
     high: 0,
   },
+
   time: {
     changeColor: 800,
     stayLit: 500,
   },
 
   init(){
-    this.$playButton.classList.add('is-hidden');
-    this.$score.classList.remove('is-hidden');
+    document.querySelector('#play-button').classList.add('is-hidden');
+    document.querySelector('.score').classList.remove('is-hidden');
 
     this.$pads.forEach(pad => pad.addEventListener('click', this.checkSequence.bind(this)));
 
@@ -29,7 +31,7 @@ export default {
 
   getRandomPad(){
     const randomNumber = Math.floor(Math.random() * 4);
-    this.sequences.push(randomNumber);
+    this.sequence.push(randomNumber);
 
     this.playSignalsSequence();
   },
@@ -40,12 +42,12 @@ export default {
     const timeToChangeColor = this.time.changeColor;
     const timeToStayLit = this.time.stayLit;
 
-    for(let i = 0; i < this.sequences.length; i++){
-      const padIndex = this.sequences[i];
+    for(let i = 0; i < this.sequence.length; i++){
+      const padIndex = this.sequence[i];
 
       await wait(timeToChangeColor);
       this.$pads[padIndex].classList.add('active');
-      Sounds.play(padIndex);
+      Sounds.play(this.padColorsByIndex[padIndex]);
 
       await wait(timeToStayLit);
       this.$pads[padIndex].classList.remove('active');
@@ -57,10 +59,10 @@ export default {
   async checkSequence(event){
     const padIndex = Number(event.currentTarget.dataset.index) - 1;
 
-    const isTheCorrectPad = padIndex === this.sequences[this.playCount];
+    const isTheCorrectPad = padIndex === this.sequence[this.playCount];
 
     if(isTheCorrectPad){
-      Sounds.play(padIndex);
+      Sounds.play(this.padColorsByIndex[padIndex]);
       this.playCount++;
       this.checkIfRoundIsOver();
     } else {
@@ -71,10 +73,10 @@ export default {
   },
 
   checkIfRoundIsOver(){
-    if(this.playCount === this.sequences.length){
+    if(this.playCount === this.sequence.length){
       this.playCount = 0;
 
-      if(this.sequences.length === 2 || this.sequences.length % 4 === 0) this.increaseSpeed();
+      if(this.sequence.length === 2 || this.sequence.length % 4 === 0) this.increaseSpeed();
       
       this.$board.classList.remove('play');
       this.score = this.score + 1;
@@ -83,18 +85,17 @@ export default {
   },
 
   async resetGame(){
-    const correctPadIndex = this.sequences[this.playCount];
+    const correctPadIndex = this.sequence[this.playCount];
 
-    this.sequences = [];
+    this.sequence = [];
     this.playCount = 0;
 
+    this.resetSpeed();
     this.$pads[correctPadIndex].classList.add('active');
     this.$board.classList.add('fail');
     this.$board.classList.remove('play');
-
-    this.resetSpeed();
-
     await wait(1000);
+
     this.score = 0;
     this.$pads[correctPadIndex].classList.remove('active');
     this.$board.classList.remove('fail');
@@ -121,6 +122,6 @@ export default {
     this.renderScore(value);
   },
   renderScore(value){
-    this.$scoreCount.textContent = value;
+    document.querySelector('.score-count').textContent = value;
   },
 };
