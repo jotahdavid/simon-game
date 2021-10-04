@@ -107,14 +107,10 @@ export default {
 
   increaseSpeed(){
     const minTimeToChangeColor = 300;
-    if(this.time.changeColor > minTimeToChangeColor) {
-      this.time.changeColor -= 100;
-    }
+    this.time.changeColor -= this.time.changeColor > minTimeToChangeColor ? 100 : 0;
 
     const minTimeToStayLit = 200;
-    if(this.time.stayLit > minTimeToStayLit) {
-      this.time.stayLit -= 100;
-    }
+    this.time.stayLit -= this.time.stayLit > minTimeToStayLit ? 100 : 0;
   },
 
   get score() {
