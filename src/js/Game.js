@@ -1,9 +1,9 @@
 import Sounds from './Sounds.js';
 
 export default {
-  playButton: document.querySelector('#play-button'),
-  pads: document.querySelectorAll('.pads'),
-  board: document.querySelector('#game'),
+  $playButton: document.querySelector('#play-button'),
+  $pads: document.querySelectorAll('.pads'),
+  $board: document.querySelector('#game'),
   sequences: [],
   playCount: 0,
 
@@ -17,9 +17,9 @@ export default {
   },
 
   init(){
-    this.playButton.classList.add('is-hidden');
+    this.$playButton.classList.add('is-hidden');
 
-    this.pads.forEach(pad => pad.addEventListener('click', this.checkSequence.bind(this)));
+    this.$pads.forEach(pad => pad.addEventListener('click', this.checkSequence.bind(this)));
 
     this.getRandomPad();
   },
@@ -41,14 +41,14 @@ export default {
       const padIndex = this.sequences[i];
 
       await this.wait(timeToChangeColor);
-      this.pads[padIndex].classList.add('active');
+      this.$pads[padIndex].classList.add('active');
       Sounds.play(padIndex);
 
       await this.wait(timeToStayLit);
-      this.pads[padIndex].classList.remove('active');
+      this.$pads[padIndex].classList.remove('active');
     }
 
-    this.board.classList.add('play');
+    this.$board.classList.add('play');
   },
 
   async checkSequence(event){
@@ -73,7 +73,7 @@ export default {
 
       if(this.sequences.length === 2 || this.sequences.length % 4 === 0) this.increaseSpeed();
       
-      this.board.classList.remove('play');
+      this.$board.classList.remove('play');
       this.getRandomPad();
     }
   },
@@ -84,15 +84,15 @@ export default {
     this.sequences = [];
     this.playCount = 0;
 
-    this.pads[correctPadIndex].classList.add('active');
-    this.board.classList.add('fail');
-    this.board.classList.remove('play');
+    this.$pads[correctPadIndex].classList.add('active');
+    this.$board.classList.add('fail');
+    this.$board.classList.remove('play');
 
     this.resetSpeed();
 
     await this.wait(1000);
-    this.pads[correctPadIndex].classList.remove('active');
-    this.board.classList.remove('fail');
+    this.$pads[correctPadIndex].classList.remove('active');
+    this.$board.classList.remove('fail');
   },
 
   resetSpeed(){
