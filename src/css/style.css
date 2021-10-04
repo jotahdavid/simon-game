@@ -39,6 +39,8 @@ body {
   
   position: relative;
   pointer-events: none;
+
+  margin: auto 0;
 }
 
 #game.play {
