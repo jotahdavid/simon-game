@@ -1,23 +1,26 @@
 import Sounds from './Sounds.js';
+import { wait } from './Utils.js';
 
 export default {
   $playButton: document.querySelector('#play-button'),
   $pads: document.querySelectorAll('.pads'),
-  $board: document.querySelector('#game'),
+  $board: document.querySelector('.board'),
+  $score: document.querySelector('.score'),
+  $scoreCount: document.querySelector('.score-count'),
   sequences: [],
   playCount: 0,
-
+  _score: {
+    current: 0,
+    high: 0,
+  },
   time: {
     changeColor: 800,
     stayLit: 500,
   },
-  
-  wait(ms){
-    return new Promise(resolve => setTimeout(resolve, ms));
-  },
 
   init(){
     this.$playButton.classList.add('is-hidden');
+    this.$score.classList.remove('is-hidden');
 
     this.$pads.forEach(pad => pad.addEventListener('click', this.checkSequence.bind(this)));
 
@@ -32,7 +35,7 @@ export default {
   },
 
   async playSignalsSequence(){
-    await this.wait(500);
+    await wait(500);
 
     const timeToChangeColor = this.time.changeColor;
     const timeToStayLit = this.time.stayLit;
@@ -40,11 +43,11 @@ export default {
     for(let i = 0; i < this.sequences.length; i++){
       const padIndex = this.sequences[i];
 
-      await this.wait(timeToChangeColor);
+      await wait(timeToChangeColor);
       this.$pads[padIndex].classList.add('active');
       Sounds.play(padIndex);
 
-      await this.wait(timeToStayLit);
+      await wait(timeToStayLit);
       this.$pads[padIndex].classList.remove('active');
     }
 
@@ -74,6 +77,7 @@ export default {
       if(this.sequences.length === 2 || this.sequences.length % 4 === 0) this.increaseSpeed();
       
       this.$board.classList.remove('play');
+      this.score = this.score + 1;
       this.getRandomPad();
     }
   },
@@ -90,7 +94,8 @@ export default {
 
     this.resetSpeed();
 
-    await this.wait(1000);
+    await wait(1000);
+    this.score = 0;
     this.$pads[correctPadIndex].classList.remove('active');
     this.$board.classList.remove('fail');
   },
@@ -110,5 +115,16 @@ export default {
     if(this.time.stayLit > minTimeToStayLit) {
       this.time.stayLit -= 100;
     }
-  }
+  },
+
+  get score() {
+    return this._score.current;
+  },
+  set score(value) {
+    this._score.current = value;
+    this.renderScore(value);
+  },
+  renderScore(value){
+    this.$scoreCount.textContent = value;
+  },
 };

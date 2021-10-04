@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="./src/css/style.css">
   </head>
   <body>
-    <main id="game">
-      <button class="pads" data-index="1"></button>
-      <button class="pads" data-index="2"></button>
-      <button class="pads" data-index="3"></button>
-      <button class="pads" data-index="4"></button>
-      <button id="play-button">Play <i class="fas fa-play"></i></button>
+    <main class="game">
+      <section class="score is-hidden">
+        <span class="score-title">Score</span>
+        <span class="score-count">0</span>
+      </section>
+      <section class="board">
+        <button class="pads" data-index="1"></button>
+        <button class="pads" data-index="2"></button>
+        <button class="pads" data-index="3"></button>
+        <button class="pads" data-index="4"></button>
+        <button id="play-button">Play <i class="fas fa-play"></i></button>
+      </section>
     </main>
 
     <script src="./src/js/index.js" type="module"></script>
