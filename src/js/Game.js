@@ -16,8 +16,8 @@ export default {
   },
 
   time: {
-    changeColor: 800,
-    stayLit: 500,
+    changeColor: { current: 800, default: 800, minimum: 300 },
+    stayLit: { current: 500, default: 500, minimum: 200 },
   },
 
   init(){
@@ -37,19 +37,17 @@ export default {
   },
 
   async playSignalsSequence(){
+    const { changeColor, stayLit } = this.time;
     await wait(500);
-
-    const timeToChangeColor = this.time.changeColor;
-    const timeToStayLit = this.time.stayLit;
 
     for(let i = 0; i < this.sequence.length; i++){
       const padIndex = this.sequence[i];
 
-      await wait(timeToChangeColor);
+      await wait(changeColor.current);
       this.$pads[padIndex].classList.add('active');
       Sounds.play(this.padColorsByIndex[padIndex]);
 
-      await wait(timeToStayLit);
+      await wait(stayLit.current);
       this.$pads[padIndex].classList.remove('active');
     }
 
@@ -102,16 +100,18 @@ export default {
   },
 
   resetSpeed(){
-    this.time.changeColor = 800;
-    this.time.stayLit = 500;
+    const { changeColor, stayLit } = this.time;
+
+    changeColor.current = changeColor.default;
+    stayLit.current = stayLit.default;
   },
 
   increaseSpeed(){
-    const minTimeToChangeColor = 300;
-    this.time.changeColor -= this.time.changeColor > minTimeToChangeColor ? 100 : 0;
+    const { changeColor, stayLit } = this.time;
+    const isGreaterThanMinimumValue = ({ current, minimum }) => current > minimum;
 
-    const minTimeToStayLit = 200;
-    this.time.stayLit -= this.time.stayLit > minTimeToStayLit ? 100 : 0;
+    changeColor.current -= isGreaterThanMinimumValue(changeColor) ? 100 : 0;
+    stayLit.current -= isGreaterThanMinimumValue(stayLit) ? 100 : 0;
   },
 
   get score() {
