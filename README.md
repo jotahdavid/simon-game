@@ -14,7 +14,7 @@ Simon/Genius is an eletronic game in which you have to memorize the played seque
 
 <p align="center">
   <img width="400" height="380" src="./.github/screenshot-menu.png" alt="Menu screenshot">
-  <img width="400" height="380" src="https://im5.ezgif.com/tmp/ezgif-5-8528c459043b.gif" alt="Gameplay">
+  <img width="400" height="380" src="./.github/gameplay.gif" alt="Gameplay">
 </p>
 
 ## 💾 Hosting

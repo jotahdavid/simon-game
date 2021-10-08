@@ -1,0 +1,4 @@
+.github/ filter=lfs diff=lfs merge=lfs -text
+.github/gameplay.gif filter=lfs diff=lfs merge=lfs -text
+.github/simon-game-logo.gif filter=lfs diff=lfs merge=lfs -text
+.github/screenshot-menu.png filter=lfs diff=lfs merge=lfs -text
