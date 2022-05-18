@@ -75,7 +75,7 @@ export default {
       this.playCount = 0;
 
       if(this.sequence.length === 2 || this.sequence.length % 4 === 0) this.increaseSpeed();
-      
+
       this.$board.classList.remove('play');
       this.score = this.score + 1;
       this.getRandomPad();
